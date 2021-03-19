@@ -3,6 +3,7 @@ const patterns = require("./patterns");
 class Model {
     constructor(connection) {
         this.connection = connection;
+        this.build();
     }
 
     /**
@@ -11,7 +12,19 @@ class Model {
      * @returns
      */
     getUsername(userId) {
-        return new Promise((resolve, reject) => {});
+        return new Promise((resolve, reject) => {
+            this.connection.query(
+                "SELECT username FROM auth WHERE user_id = ?",
+                [userId],
+                (err) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(results[0].username);
+                    }
+                }
+            );
+        });
     }
 
     /**
@@ -21,7 +34,19 @@ class Model {
      * @returns
      */
     setUsername(userId, username) {
-        return new Promise((resolve, reject) => {});
+        return new Promise((resolve, reject) => {
+            this.connection.query(
+                "UPDATE auth SET username = ? WHERE user_id = ?",
+                [password, username],
+                (err) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve();
+                    }
+                }
+            );
+        });
     }
 
     /**
@@ -30,7 +55,19 @@ class Model {
      * @returns
      */
     getEmail(userId) {
-        return new Promise((resolve, reject) => {});
+        return new Promise((resolve, reject) => {
+            this.connection.query(
+                "SELECT email FROM auth WHERE user_id = ?",
+                [userId],
+                (err) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(results[0].email);
+                    }
+                }
+            );
+        });
     }
 
     /**
@@ -40,7 +77,19 @@ class Model {
      * @returns
      */
     setEmail(userId, email) {
-        return new Promise((resolve, reject) => {});
+        return new Promise((resolve, reject) => {
+            this.connection.query(
+                "UPDATE auth SET email = ? WHERE user_id = ?",
+                [email, userId],
+                (err) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve();
+                    }
+                }
+            );
+        });
     }
 
     /**
@@ -49,7 +98,19 @@ class Model {
      * @returns
      */
     getPassword(userId) {
-        return new Promise((resolve, reject) => {});
+        return new Promise((resolve, reject) => {
+            this.connection.query(
+                "SELECT password FROM auth WHERE user_id = ?",
+                [userId],
+                (err) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(results[0].password);
+                    }
+                }
+            );
+        });
     }
 
     /**
@@ -58,8 +119,20 @@ class Model {
      * @param {*} password
      * @returns
      */
-    setPassword(userID, password) {
-        return new Promise((resolve, reject) => {});
+    setPassword(userId, password) {
+        return new Promise((resolve, reject) => {
+            this.connection.query(
+                "UPDATE auth SET password = ? WHERE user_id = ?",
+                [password, userId],
+                (err) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve();
+                    }
+                }
+            );
+        });
     }
 
     /**
@@ -87,7 +160,11 @@ class Model {
     /**
      *
      */
-    build() {}
+    build() {
+        this.connection.query(
+            "CREATE TABLE auth (user_id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT, username text NOT NULL, email text NOT NULL, password text NOT NULL)"
+        );
+    }
 }
 
 module.exports = Model;

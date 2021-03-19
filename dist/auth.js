@@ -1,6 +1,5 @@
 const Model = require("./model");
 const hash = require("./hash");
-const patterns = require("./patterns");
 
 class Auth {
     constructor(connection, reqObj) {
@@ -25,16 +24,27 @@ class Auth {
      *
      * @param {*} cb
      */
-    login(cb) {
+    async login(cb) {
         const { req } = this.reqObj.getRequest();
         const { username, password } = req.body;
+        const userId = await this.query.getUserId(username);
+        const hashedPass = await this.query.getPassword(userId);
+        if (hash.compareHash(hashedPass, password)) {
+            cb();
+        } else {
+            cb(new Error("Invalid Credentials"));
+        }
     }
 
     /**
      *
      * @param {*} cb
      */
-    logout(cb) {}
+    logout(cb) {
+        const { req } = this.reqObj.getRequest();
+        req.session.destroy();
+        cb();
+    }
 
     /**
      *

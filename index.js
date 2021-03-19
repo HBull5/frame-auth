@@ -7,10 +7,13 @@ const Request = require("./dist/request");
 
 /**
  *
- * @param {*} app
- * @param {*} connection
+ * @param {Object} app
+ * @param {Object} connection
+ * @param {String} secret <optional>
+ * @param {Boolean} https <optional>
+ * @returns
  */
-function auth(app, connection) {
+function auth(app, connection, secret, https) {
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
     app.use(helmet());
