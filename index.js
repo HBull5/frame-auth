@@ -2,8 +2,8 @@ const express = require("express");
 const session = require("express-session");
 const MemoryStore = require("memorystore")(session);
 const helmet = require("helmet");
+const Auth = require("./dist/auth");
 const Request = require("./dist/request");
-const reqObj = new Request();
 
 /**
  *
@@ -14,6 +14,7 @@ function auth(app, connection) {
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
     app.use(helmet());
+    const reqObj = new Request();
     app.use((req, res, next) => {
         reqObj.setRequest(req, res);
         next();
@@ -29,6 +30,7 @@ function auth(app, connection) {
             }),
         })
     );
+    return new Auth(connection, reqObj);
 }
 
 module.exports = auth;

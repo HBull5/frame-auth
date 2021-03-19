@@ -30,6 +30,25 @@ class Model {
      * @param {*} userId
      * @returns
      */
+    getEmail(userId) {
+        return new Promise((resolve, reject) => {});
+    }
+
+    /**
+     *
+     * @param {*} userId
+     * @param {*} email
+     * @returns
+     */
+    setEmail(userId, email) {
+        return new Promise((resolve, reject) => {});
+    }
+
+    /**
+     *
+     * @param {*} userId
+     * @returns
+     */
     getPassword(userId) {
         return new Promise((resolve, reject) => {});
     }
