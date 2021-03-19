@@ -1,9 +1,33 @@
+const hash = require("./hash");
 const patterns = require("./patterns");
 
 class Model {
     constructor(connection) {
         this.connection = connection;
         this.build();
+    }
+
+    /**
+     *
+     * @param {*} username
+     * @param {*} email
+     * @param {*} password
+     * @returns
+     */
+    registerUser(username, email, password) {
+        return new Promise((resolve, reject) => {
+            this.connection.query(
+                "INSERT INTO auth (username, email, password) VALUES(?, ?, ?)",
+                [username, email, password],
+                (err) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve();
+                    }
+                }
+            );
+        });
     }
 
     /**
