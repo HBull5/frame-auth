@@ -1,5 +1,4 @@
-const hash = require("./hash");
-const mysql = require("mysql");
+const patterns = require("./patterns");
 
 class Model {
     constructor(connection) {
@@ -69,7 +68,20 @@ class Model {
      * @returns
      */
     getUserId(identity) {
-        return new Promise((resolve, reject) => {});
+        return new Promise((resolve, reject) => {
+            const idType = patterns.email.test(identity) ? "email" : "username";
+            this.connection.query(
+                "SELECT user_id FROM auth WHERE ? = ?",
+                [idType, identity],
+                (err) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(results[0].user_id);
+                    }
+                }
+            );
+        });
     }
 
     /**

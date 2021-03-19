@@ -1,4 +1,6 @@
 const Model = require("./model");
+const hash = require("./hash");
+const patterns = require("./patterns");
 
 class Auth {
     constructor(connection, reqObj) {
